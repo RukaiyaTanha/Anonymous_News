@@ -1,0 +1,125 @@
+:root {
+    --bg-1: #f8fafc;
+    --bg-2: #f1f5f9;
+    --bg-3: #eff6ff;
+    --text-1: #0f172a;
+    --text-2: #334155;
+    --border: rgba(148, 163, 184, 0.35);
+    --panel: rgba(255, 255, 255, 0.72);
+    --panel-strong: rgba(255, 255, 255, 0.84);
+    --accent: #0369a1;
+    --accent-hover: #075985;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Instrument Sans', 'Figtree', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color: var(--text-1);
+    background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
+    background-attachment: fixed;
+    line-height: 1.5;
+    font-size: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 0 0.75rem;
+    color: var(--text-1);
+    line-height: 1.2;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+
+p { margin: 0.5rem 0; color: var(--text-2); }
+
+small { font-size: 0.875rem; }
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--accent-hover);
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--panel-strong);
+    padding: 0.625rem 0.75rem;
+    color: var(--text-1);
+    outline: none;
+    font-size: 1rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #7dd3fc;
+    box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.25);
+}
+
+textarea { min-height: 120px; }
+
+button,
+input[type='submit'],
+input[type='button'] {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--panel-strong);
+    color: var(--text-1);
+    padding: 0.55rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 120ms ease;
+}
+
+button:hover,
+input[type='submit']:hover,
+input[type='button']:hover {
+    background: rgba(241, 245, 249, 0.96);
+    border-color: rgba(100, 116, 139, 0.35);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.07);
+    transform: translateY(-1px);
+}
+
+button:active,
+input[type='submit']:active,
+input[type='button']:active {
+    transform: translateY(0);
+}
+
+button:focus-visible,
+input[type='submit']:focus-visible,
+input[type='button']:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.3);
+}
