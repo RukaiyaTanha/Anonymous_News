@@ -159,7 +159,7 @@ class ReportScoringService
             . "duplicate_similarity_score: {$duplicateSimilarity}";
 
         try {
-            $response = Http::timeout(30)
+            $response = $this->geminiClient()
                 ->post("https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}", [
                     'contents' => [
                         [
@@ -225,7 +225,7 @@ class ReportScoringService
             . "\n\nBaseline similarity from lexical algorithm: {$baseSimilarity}";
 
         try {
-            $response = Http::timeout(30)
+            $response = $this->geminiClient()
                 ->post("https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}", [
                     'contents' => [
                         [
@@ -409,6 +409,17 @@ class ReportScoringService
         $model = trim((string) config('services.gemini.model', 'gemini-2.5-flash-lite'));
 
         return $model !== '' ? $model : 'gemini-2.5-flash-lite';
+    }
+
+    private function geminiClient()
+    {
+        $client = Http::timeout(30);
+
+        if (! (bool) config('services.gemini.verify_ssl', true)) {
+            $client = $client->withoutVerifying();
+        }
+
+        return $client;
     }
 
     private function tokenize(string $text): array

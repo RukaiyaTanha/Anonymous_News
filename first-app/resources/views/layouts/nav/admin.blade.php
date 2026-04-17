@@ -8,12 +8,12 @@
     <div class="side-nav-top">
         <a class="side-brand" href="{{ route('admin.dashboard') }}">
             <img src="{{ asset('images/logo-spy.png') }}" alt="Anonymous News Portal logo" class="side-brand-logo">
-            <span>Anonymous News Portal</span>
+            <span>{{ __('Anonymous News Portal') }}</span>
         </a>
-        <p class="side-role-label">Admin Panel</p>
+        <p class="side-role-label">{{ __('Admin Panel') }}</p>
     </div>
 
-    <nav class="side-nav-links" aria-label="Admin navigation">
+    <nav class="side-nav-links" aria-label="{{ __('Admin navigation') }}">
         <a href="{{ route('admin.dashboard') }}" class="side-link {{ request()->routeIs('admin.dashboard') ? 'is-active' : '' }}">
             <span class="side-link-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -23,7 +23,7 @@
                     <rect x="3" y="13" width="8" height="8" rx="1.5" />
                 </svg>
             </span>
-            <span>Overview</span>
+            <span>{{ __('Overview') }}</span>
         </a>
 
         <a href="{{ route('admin.reports.pending') }}" class="side-link {{ request()->routeIs('admin.reports.pending') ? 'is-active' : '' }}">
@@ -33,7 +33,7 @@
                     <path d="M12 7v5l3 2" />
                 </svg>
             </span>
-            <span>Pending Reports</span>
+            <span>{{ __('Pending Reports') }}</span>
         </a>
 
         <a href="{{ route('admin.reports.verified') }}" class="side-link {{ request()->routeIs('admin.reports.verified') ? 'is-active' : '' }}">
@@ -43,7 +43,7 @@
                     <circle cx="12" cy="12" r="9" />
                 </svg>
             </span>
-            <span>Verified Reports</span>
+            <span>{{ __('Verified Reports') }}</span>
         </a>
 
         <a href="{{ route('admin.users.index') }}" class="side-link {{ request()->routeIs('admin.users.*') ? 'is-active' : '' }}">
@@ -55,7 +55,7 @@
                     <path d="M20 19a4 4 0 0 0-4-4" />
                 </svg>
             </span>
-            <span>Users</span>
+            <span>{{ __('Users') }}</span>
         </a>
 
         <a href="{{ route('admin.categories.index') }}" class="side-link {{ request()->routeIs('admin.categories.*') ? 'is-active' : '' }}">
@@ -67,7 +67,7 @@
                     <rect x="3" y="5" width="18" height="14" rx="2" />
                 </svg>
             </span>
-            <span>Categories</span>
+            <span>{{ __('Categories') }}</span>
         </a>
 
         <a href="{{ route('admin.audits.index') }}" class="side-link {{ request()->routeIs('admin.audits.*') ? 'is-active' : '' }}">
@@ -79,7 +79,7 @@
                     <path d="M9 16h4" />
                 </svg>
             </span>
-            <span>Audit Logs</span>
+            <span>{{ __('Audit Logs') }}</span>
         </a>
 
         <a href="{{ route('news.index') }}" class="side-link {{ request()->routeIs('news.*') ? 'is-active' : '' }}">
@@ -90,7 +90,7 @@
                     <path d="M8 14h5" />
                 </svg>
             </span>
-            <span>Public News</span>
+            <span>{{ __('Public News') }}</span>
         </a>
     </nav>
 
@@ -118,7 +118,7 @@
                     <path d="M16 17l5-5-5-5" />
                     <path d="M21 12H9" />
                 </svg>
-                <span>Log Out</span>
+                <span>{{ __('Log Out') }}</span>
             </button>
         </form>
     </div>

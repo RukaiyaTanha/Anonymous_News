@@ -14,6 +14,7 @@ new class extends Component {
 
     public string $name = '';
     public string $email = '';
+    public string $language = '';
 
     /**
      * Mount the component.
@@ -22,6 +23,7 @@ new class extends Component {
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+        $this->language = Auth::user()->language ?? 'en';
     }
 
     /**
@@ -42,6 +44,21 @@ new class extends Component {
         $user->save();
 
         $this->dispatch('profile-updated', name: $user->name);
+    }
+
+    /**
+     * Update the language preference for the currently authenticated user.
+     */
+    public function updateLanguagePreference(): void
+    {
+        $this->validate([
+            'language' => 'required|in:en,bn',
+        ]);
+
+        $user = Auth::user();
+        $user->update(['language' => $this->language]);
+
+        Session::flash('status', 'language-updated');
     }
 
     /**
@@ -123,5 +140,32 @@ new class extends Component {
         @if ($this->showDeleteUser)
             <livewire:pages::settings.delete-user-form />
         @endif
+
+        <!-- Language Preference Section - AFTER DELETE ACCOUNT -->
+        <div class="mt-8 pt-8 border-t">
+            <form wire:submit="updateLanguagePreference" class="my-6 w-full space-y-6">
+                <div>
+                    <flux:heading size="md" class="text-lg font-semibold">{{ __('🌐 Language Preference') }}</flux:heading>
+                    <flux:subheading class="mt-1">{{ __('Choose your preferred language') }}</flux:subheading>
+                </div>
+
+                <flux:radio.group wire:model="language" variant="segmented">
+                    <flux:radio value="en" icon="language">{{ __('English') }}</flux:radio>
+                    <flux:radio value="bn" icon="language">{{ __('Bangla (বাংলা)') }}</flux:radio>
+                </flux:radio.group>
+
+                <div class="flex items-center justify-end">
+                    <flux:button variant="primary" type="submit">
+                        {{ __('Save Language') }}
+                    </flux:button>
+                </div>
+
+                @if (session('status') === 'language-updated')
+                    <flux:alert icon="check-circle" variant="success" class="mt-4">
+                        {{ __('Language preference updated successfully!') }}
+                    </flux:alert>
+                @endif
+            </form>
+        </div>
     </x-pages::settings.layout>
 </section>

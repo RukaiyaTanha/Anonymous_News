@@ -8,12 +8,12 @@
     <div class="side-nav-top">
         <a class="side-brand" href="{{ route('dashboard') }}">
             <img src="{{ asset('images/logo-spy.png') }}" alt="Anonymous News Portal logo" class="side-brand-logo">
-            <span>Anonymous News Portal</span>
+            <span>{{ __('Anonymous News Portal') }}</span>
         </a>
-        <p class="side-role-label">User Panel</p>
+        <p class="side-role-label">{{ __('User Panel') }}</p>
     </div>
 
-    <nav class="side-nav-links" aria-label="User navigation">
+    <nav class="side-nav-links" aria-label="{{ __('User navigation') }}">
         <a href="{{ route('dashboard') }}" class="side-link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}">
             <span class="side-link-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -21,7 +21,7 @@
                     <path d="M5 10.8V20h14v-9.2" />
                 </svg>
             </span>
-            <span>Dashboard</span>
+            <span>{{ __('Dashboard') }}</span>
         </a>
 
         <a href="{{ route('reports.create') }}" class="side-link {{ request()->routeIs('reports.create') ? 'is-active' : '' }}">
@@ -32,7 +32,7 @@
                     <rect x="3" y="3" width="18" height="18" rx="2" />
                 </svg>
             </span>
-            <span>Submit Report</span>
+            <span>{{ __('Submit Report') }}</span>
         </a>
 
         <a href="{{ route('reports.my') }}" class="side-link {{ request()->routeIs('reports.my') ? 'is-active' : '' }}">
@@ -44,7 +44,7 @@
                     <path d="M10 16h8" />
                 </svg>
             </span>
-            <span>My Reports</span>
+            <span>{{ __('My Reports') }}</span>
         </a>
 
         <a href="{{ route('notifications.index') }}" class="side-link {{ request()->routeIs('notifications.*') ? 'is-active' : '' }}">
@@ -54,18 +54,21 @@
                     <path d="M9 17a3 3 0 0 0 6 0" />
                 </svg>
             </span>
-            <span>Notifications</span>
+            <span>{{ __('Notifications') }}</span>
             <span class="side-link-badge">{{ auth()->user()->userNotifications()->where('is_read', false)->count() }}</span>
         </a>
 
         <a href="{{ route('profile.edit') }}" class="side-link {{ request()->routeIs('profile.*') ? 'is-active' : '' }}">
             <span class="side-link-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21a8 8 0 1 0-16 0" />
-                    <circle cx="12" cy="7" r="4" />
+                    <circle cx="12" cy="12" r="1" />
+                    <path d="M12 1v6m0 6v6" />
+                    <path d="M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24" />
+                    <path d="M1 12h6m6 0h6" />
+                    <path d="M4.22 19.78l4.24-4.24m3.08-3.08l4.24-4.24" />
                 </svg>
             </span>
-            <span>Profile</span>
+            <span>{{ __('Settings') }}</span>
         </a>
 
         <a href="{{ route('news.index') }}" class="side-link {{ request()->routeIs('news.*') ? 'is-active' : '' }}">
@@ -76,7 +79,7 @@
                     <path d="M8 14h5" />
                 </svg>
             </span>
-            <span>Verified News</span>
+            <span>{{ __('Verified News') }}</span>
         </a>
     </nav>
 
@@ -104,7 +107,7 @@
                     <path d="M16 17l5-5-5-5" />
                     <path d="M21 12H9" />
                 </svg>
-                <span>Log Out</span>
+                <span>{{ __('Log Out') }}</span>
             </button>
         </form>
     </div>

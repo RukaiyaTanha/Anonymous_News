@@ -3,8 +3,8 @@
         <div class="page-shell">
             <header class="notifications-hero card-glass">
                 <div>
-                    <h1>Notifications</h1>
-                    <p class="section-subtitle">Keep track of important updates to your reports and account.</p>
+                    <h1>{{ __('Notifications') }}</h1>
+                    <p class="section-subtitle">{{ __('Keep track of important updates to your reports and account.') }}</p>
                 </div>
             </header>
 
@@ -14,13 +14,13 @@
 
             <section class="notifications-panel card-glass">
                 <div class="notifications-panel__head">
-                    <h2>Notifications</h2>
+                    <h2>{{ __('Notifications') }}</h2>
                 </div>
 
                 @if ($notifications->isEmpty())
                     <div class="notifications-empty">
-                        <h3>No notifications yet</h3>
-                        <p>You will see updates here when there is activity related to your reports and account.</p>
+                        <h3>{{ __('No notifications yet') }}</h3>
+                        <p>{{ __('You will see updates here when there is activity related to your reports and account.') }}</p>
                     </div>
                 @else
                     <div class="notifications-list">

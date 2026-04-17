@@ -4,12 +4,12 @@
 <div class="container overview-page">
     <section class="overview-hero glass-card">
         <div class="overview-hero-content">
-            <p class="overview-kicker">Public Interest Reporting</p>
-            <h1>Anonymous. Verified. Professionally Moderated.</h1>
-            <p>Share evidence-based reports and read stories that pass AI-assisted checks plus human moderation.</p>
+            <p class="overview-kicker">{{ __('Public Interest Reporting') }}</p>
+            <h1>{{ __('Anonymous. Verified. Professionally Moderated.') }}</h1>
+            <p>{{ __('Share evidence-based reports and read stories that pass AI-assisted checks plus human moderation.') }}</p>
             <div class="overview-hero-actions">
-                <a href="{{ route('reports.create') }}">Submit News</a>
-                <a href="{{ route('news.index') }}">Browse Reports</a>
+                <a href="{{ route('reports.create') }}">{{ __('Submit News') }}</a>
+                <a href="{{ route('news.index') }}">{{ __('Browse Reports') }}</a>
             </div>
         </div>
     </section>
@@ -17,7 +17,7 @@
     @if($featuredReport)
         <section class="overview-section">
             <div class="overview-section-head">
-                <h3>Featured Verified Report</h3>
+                <h3>{{ __('Featured Verified Report') }}</h3>
             </div>
 
             <article class="featured-report glass-card">
@@ -28,9 +28,9 @@
                     </h2>
                     <p>{{ \Illuminate\Support\Str::limit($featuredReport->excerpt ?? $featuredReport->content, 170) }}</p>
                     <div class="featured-meta">
-                        <span class="pill">Verified</span>
-                        <span class="pill">Credibility {{ number_format((float) ($featuredReport->credibility_score ?? 0), 0) }}%</span>
-                        <a class="read-more" href="{{ route('news.show', $featuredReport->slug) }}">Read More</a>
+                        <span class="pill">{{ __('Verified') }}</span>
+                        <span class="pill">{{ __('Credibility') }} {{ number_format((float) ($featuredReport->credibility_score ?? 0), 0) }}%</span>
+                        <a class="read-more" href="{{ route('news.show', $featuredReport->slug) }}">{{ __('Read More') }}</a>
                     </div>
                 </div>
             </article>
@@ -39,8 +39,8 @@
 
     <section class="overview-section">
         <div class="overview-section-head">
-            <h3>Latest Verified Reports</h3>
-            <a href="{{ route('news.index') }}">View all</a>
+            <h3>{{ __('Latest Verified Reports') }}</h3>
+            <a href="{{ route('news.index') }}">{{ __('View all') }}</a>
         </div>
 
         @if($latestReports->isNotEmpty())
@@ -54,7 +54,7 @@
                             </h4>
                             <p>{{ \Illuminate\Support\Str::limit($report->excerpt ?? $report->content, 110) }}</p>
                             <div class="report-meta">
-                                <span>{{ number_format((float) ($report->credibility_score ?? 0), 0) }}% credible</span>
+                                <span>{{ number_format((float) ($report->credibility_score ?? 0), 0) }}% {{ __('credible') }}</span>
                                 <span>{{ $report->created_at?->format('M j, Y') }}</span>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
             </div>
         @else
             <div class="glass-card">
-                <p>No verified reports yet.</p>
+                <p>{{ __('No verified reports yet.') }}</p>
             </div>
         @endif
     </section>

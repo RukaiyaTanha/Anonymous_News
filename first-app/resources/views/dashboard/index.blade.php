@@ -4,27 +4,27 @@
 <div class="container user-dashboard-page">
     <section class="dashboard-head glass-card">
         <div>
-            <h1>Welcome back, {{ auth()->user()->username ?? 'User' }}!</h1>
-            <p>Here is a quick overview of your reporting activity and platform status.</p>
+            <h1>{{ __('Welcome back, :name!', ['name' => auth()->user()->username ?? __('User')]) }}</h1>
+            <p>{{ __('Here is a quick overview of your reporting activity and platform status.') }}</p>
         </div>
-        <a href="{{ route('reports.create') }}" class="dashboard-submit-btn">Submit News</a>
+        <a href="{{ route('reports.create') }}" class="dashboard-submit-btn">{{ __('Submit News') }}</a>
     </section>
 
     <section class="dashboard-stats-grid">
         <article class="dashboard-stat-card glass-card">
-            <small>Total Submissions</small>
+            <small>{{ __('Total Submissions') }}</small>
             <strong>{{ $totalSubmissions }}</strong>
         </article>
         <article class="dashboard-stat-card glass-card">
-            <small>Pending Reports</small>
+            <small>{{ __('Pending Reports') }}</small>
             <strong>{{ $pendingReports }}</strong>
         </article>
         <article class="dashboard-stat-card glass-card">
-            <small>Verified Reports</small>
+            <small>{{ __('Verified Reports') }}</small>
             <strong>{{ $verifiedReports }}</strong>
         </article>
         <article class="dashboard-stat-card glass-card">
-            <small>Rejected Reports</small>
+            <small>{{ __('Rejected Reports') }}</small>
             <strong>{{ $rejectedReports }}</strong>
         </article>
     </section>
@@ -32,7 +32,7 @@
     <section class="dashboard-main-layout">
         <article class="dashboard-recent glass-card">
             <div class="dashboard-block-head">
-                <h3>Recent Submissions</h3>
+                <h3>{{ __('Recent Submissions') }}</h3>
             </div>
 
             @if($userReports->count())
@@ -40,11 +40,11 @@
                     <table class="submission-table">
                         <thead>
                             <tr>
-                                <th>Photo</th>
-                                <th>Title</th>
-                                <th>Category</th>
-                                <th>Date</th>
-                                <th>Status</th>
+                                <th>{{ __('Photo') }}</th>
+                                <th>{{ __('Title') }}</th>
+                                <th>{{ __('Category') }}</th>
+                                <th>{{ __('Date') }}</th>
+                                <th>{{ __('Status') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -56,7 +56,7 @@
                                     <td>
                                         <span class="dashboard-table-title">{{ \Illuminate\Support\Str::limit($report->title, 56) }}</span>
                                     </td>
-                                    <td>{{ $report->category?->name ?? 'General' }}</td>
+                                    <td>{{ $report->category?->name ?? __('General') }}</td>
                                     <td>{{ $report->created_at?->format('M j, Y') }}</td>
                                     <td>
                                         <span class="status-pill status-{{ str_replace('_', '-', $report->status) }}">{{ ucfirst(str_replace('_', ' ', $report->status)) }}</span>
@@ -68,22 +68,22 @@
                 </div>
 
                 <div class="dashboard-pagination">
-                    <a href="{{ route('reports.my') }}">View all</a>
+                    <a href="{{ route('reports.my') }}">{{ __('View all') }}</a>
                     <div>{{ $userReports->links() }}</div>
                 </div>
             @else
-                <p>You have not submitted any reports yet.</p>
+                <p>{{ __('You have not submitted any reports yet.') }}</p>
             @endif
         </article>
 
         <aside class="dashboard-side">
             <section class="glass-card dashboard-side-card reputation-card">
-                <h4>Reputation Score</h4>
+                <h4>{{ __('Reputation Score') }}</h4>
                 <div class="reputation-score">{{ $reputationScore }}</div>
                 <div class="reputation-bar">
                     <span style="width: {{ $reputationScore }}%"></span>
                 </div>
-                <small>Based on verified, pending, and rejected report outcomes.</small>
+                <small>{{ __('Based on verified, pending, and rejected report outcomes.') }}</small>
             </section>
         </aside>
     </section>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -49,6 +50,25 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    /**
+     * Update the user's language preference.
+     */
+    public function updateLanguage(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'language' => ['required', Rule::in(['en', 'bn'])],
+        ]);
+
+        $request->user()->update([
+            'language' => $validated['language'],
+        ]);
+
+        app()->setLocale($validated['language']);
+        $request->session()->put('locale', $validated['language']);
+
+        return Redirect::route('profile.edit')->with('status', 'language-updated');
     }
 
     /**

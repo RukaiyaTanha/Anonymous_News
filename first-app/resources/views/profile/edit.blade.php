@@ -3,8 +3,8 @@
 @section('content')
 <div class="container profile-page">
     <section class="submit-header glass-card">
-        <h1>Profile</h1>
-        <p>Manage your account information, password, and security settings.</p>
+        <h1>{{ __('Profile') }}</h1>
+        <p>{{ __('Manage your account information, password, and security settings.') }}</p>
     </section>
 
     <section class="profile-summary glass-card">
@@ -12,7 +12,7 @@
             <h2>{{ $user->username ?? $user->name ?? 'User' }}</h2>
             <p>{{ '@' . ($user->username ?? 'user') }}</p>
             <div class="profile-reputation-row">
-                <span>Reputation Score</span>
+                <span>{{ __('Reputation Score') }}</span>
                 <strong>{{ min(100, max(0, ((int) $user->reports()->where('status', 'verified')->count() * 12))) }}</strong>
             </div>
         </div>
@@ -33,6 +33,10 @@
 
         <article class="glass-card profile-block">
             @include('profile.partials.delete-user-form')
+        </article>
+
+        <article class="glass-card profile-block">
+            @include('profile.partials.update-language-form')
         </article>
     </section>
 </div>

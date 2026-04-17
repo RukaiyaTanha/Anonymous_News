@@ -9,6 +9,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\FlagController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ReportAIController;
+use App\Http\Controllers\TranslationController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminUserController;
@@ -32,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/create', [ReportController::class, 'create'])->name('reports.create');
     Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
+    Route::post('/ai/suggest-report', [ReportAIController::class, 'suggestImprovements'])->name('ai.suggest-report');
     Route::get('/reports/my', [ReportController::class, 'myReports'])->name('reports.my');
 
     Route::post('/reports/{report}/vote',[VoteController::class, 'store'])->name('reports.vote');
@@ -40,9 +43,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
     Route::post('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
+    // Translation routes
+    Route::post('/translate/text', [TranslationController::class, 'translateText'])->name('translate.text');
+    Route::post('/translate/report', [TranslationController::class, 'translateReport'])->name('translate.report');
+
     // Profile management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/language', [ProfileController::class, 'updateLanguage'])->name('profile.language.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
@@ -75,4 +83,5 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::patch('/categories/{category}', [AdminCategoryController::class, 'update'])->name('admin.categories.update');
 });
 
+require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

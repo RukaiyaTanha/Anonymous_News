@@ -29,7 +29,7 @@
                     <path d="M3 7a2 2 0 0 1 2-2h4.3a2 2 0 0 1 1.4.58L12 7h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z" />
                 </svg>
             </span>
-            <span>{{ $report->category?->name ?? 'General' }}</span>
+            <span>{{ $report->category?->name ?? __('General') }}</span>
         </span>
         <span class="meta-item">
             <span class="meta-icon-badge" aria-hidden="true">
@@ -45,7 +45,7 @@
                     <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z" />
                 </svg>
             </span>
-            <span>Anonymous Reporter</span>
+            <span>{{ __('Anonymous Reporter') }}</span>
         </span>
         <span class="meta-item">
             <span class="meta-icon-badge" aria-hidden="true">
@@ -80,15 +80,15 @@
             <div class="report-score-row">
                 <div class="score-item">
                     <strong>{{ number_format((float) ($report->ai_confidence_score ?? 0), 0) }}%</strong>
-                    <span>Likely Accurate</span>
+                    <span>{{ __('Likely Accurate') }}</span>
                 </div>
                 <div class="score-item">
                     <strong>{{ number_format((float) ($report->credibility_score ?? 0), 0) }}%</strong>
-                    <span>Verified</span>
+                    <span>{{ __('Verified') }}</span>
                 </div>
                 <div class="score-item">
                     <strong>{{ number_format((int) $report->view_count) }}</strong>
-                    <span>Total Views</span>
+                    <span>{{ __('Total Views') }}</span>
                 </div>
             </div>
 
@@ -134,18 +134,18 @@
                             <svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                                 <path d="M14 9V4a2 2 0 0 0-2-2l-1 7v11h8a2 2 0 0 0 1.95-1.55l1.2-6A2 2 0 0 0 20.2 10H14Zm-9 2h4v9H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2Z" />
                             </svg>
-                            <span>Upvote Report</span>
+                            <span>{{ __('Upvote Report') }}</span>
                         </button>
                     </form>
 
                     <form method="POST" action="{{ route('reports.flag', $report->id) }}" class="flag-form">
                         @csrf
-                        <input type="text" name="reason" placeholder="Flag reason" required>
+                        <input type="text" name="reason" placeholder="{{ __('Flag reason') }}" required>
                         <button type="submit" class="action-pill action-flag">
                             <svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                                 <path d="M4 3h2v18H4V3Zm4 1h10l-2 4 2 4H8V4Z" />
                             </svg>
-                            <span>Flag Report</span>
+                            <span>{{ __('Flag Report') }}</span>
                         </button>
                     </form>
                 @else
@@ -153,13 +153,13 @@
                         <svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                             <path d="M14 9V4a2 2 0 0 0-2-2l-1 7v11h8a2 2 0 0 0 1.95-1.55l1.2-6A2 2 0 0 0 20.2 10H14Zm-9 2h4v9H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2Z" />
                         </svg>
-                        <span>Login to Upvote</span>
+                        <span>{{ __('Login to Upvote') }}</span>
                     </a>
                     <a href="{{ request()->fullUrlWithQuery(['auth' => 'login']) }}" class="action-pill action-flag">
                         <svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                             <path d="M4 3h2v18H4V3Zm4 1h10l-2 4 2 4H8V4Z" />
                         </svg>
-                        <span>Login to Flag</span>
+                        <span>{{ __('Login to Flag') }}</span>
                     </a>
                 @endauth
             </div>
@@ -167,7 +167,7 @@
 
         <aside class="report-sidebar">
             <section class="glass-card sidebar-block">
-                <h4>Related Reports</h4>
+                <h4>{{ __('Related Reports') }}</h4>
                 @forelse($relatedReports as $item)
                     <a class="sidebar-item" href="{{ route('news.show', $item->slug) }}">
                         <span class="mini-thumb{{ $item->primary_image_url ? '' : ' no-media' }}" @if($item->primary_image_url) style="background-image: url('{{ $item->primary_image_url }}');" @endif></span>
@@ -177,12 +177,12 @@
                         </span>
                     </a>
                 @empty
-                    <p>No related reports yet.</p>
+                    <p>{{ __('No related reports yet.') }}</p>
                 @endforelse
             </section>
 
             <section class="glass-card sidebar-block">
-                <h4>Trending Reports</h4>
+                <h4>{{ __('Trending Reports') }}</h4>
                 @forelse($trendingReports as $item)
                     <a class="sidebar-item" href="{{ route('news.show', $item->slug) }}">
                         <span class="mini-thumb{{ $item->primary_image_url ? '' : ' no-media' }}" @if($item->primary_image_url) style="background-image: url('{{ $item->primary_image_url }}');" @endif></span>
@@ -192,28 +192,28 @@
                                 {{ number_format((int) $item->view_count) }}
                                 {{ \Illuminate\Support\Str::plural('view', (int) $item->view_count) }}
                                 @if(isset($item->votes_count))
-                                    · {{ number_format((int) $item->votes_count) }} upvotes
+                                    · {{ number_format((int) $item->votes_count) }} {{ __('upvotes') }}
                                 @endif
                             </small>
                         </span>
                     </a>
                 @empty
-                    <p>No trending reports yet.</p>
+                    <p>{{ __('No trending reports yet.') }}</p>
                 @endforelse
             </section>
 
             <section class="glass-card sidebar-block">
-                <h4>Highest Credibility</h4>
+                <h4>{{ __('Highest Credibility') }}</h4>
                 @forelse($highCredibilityReports as $item)
                     <a class="sidebar-item" href="{{ route('news.show', $item->slug) }}">
                         <span class="mini-thumb{{ $item->primary_image_url ? '' : ' no-media' }}" @if($item->primary_image_url) style="background-image: url('{{ $item->primary_image_url }}');" @endif></span>
                         <span>
                             <strong>{{ \Illuminate\Support\Str::limit($item->title, 52) }}</strong>
-                            <small>{{ number_format((float) ($item->credibility_score ?? 0), 0) }}% credible</small>
+                            <small>{{ number_format((float) ($item->credibility_score ?? 0), 0) }}% {{ __('credible') }}</small>
                         </span>
                     </a>
                 @empty
-                    <p>No high-credibility reports yet.</p>
+                    <p>{{ __('No high-credibility reports yet.') }}</p>
                 @endforelse
             </section>
         </aside>
@@ -222,12 +222,12 @@
     <section class="detail-pagination glass-card">
         <div>
             @if($previousReport)
-                <a href="{{ route('news.show', $previousReport->slug) }}">Previous</a>
+                <a href="{{ route('news.show', $previousReport->slug) }}">{{ __('Previous') }}</a>
             @endif
         </div>
         <div>
             @if($nextReport)
-                <a href="{{ route('news.show', $nextReport->slug) }}">Next</a>
+                <a href="{{ route('news.show', $nextReport->slug) }}">{{ __('Next') }}</a>
             @endif
         </div>
     </section>

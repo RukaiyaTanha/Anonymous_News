@@ -3,21 +3,21 @@
 @section('content')
 <div class="container submissions-page" id="submissions-page">
     <section class="submit-header glass-card">
-        <h1>My Submissions</h1>
-        <p>Track the status of your news reports you've submitted.</p>
+        <h1>{{ __('My Submissions') }}</h1>
+        <p>{{ __('Track the status of your news reports you\'ve submitted.') }}</p>
     </section>
 
     <section class="submissions-layout">
         <article class="glass-card submissions-main">
             <div class="dashboard-block-head">
-                <h3>My Submissions</h3>
+                <h3>{{ __('My Submissions') }}</h3>
             </div>
 
             <form method="GET" action="{{ route('reports.my') }}" class="submission-filters">
-                <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search by title or summary">
+                <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="{{ __('Search by title or summary') }}">
 
                 <select name="category">
-                    <option value="">Categories</option>
+                    <option value="">{{ __('Categories') }}</option>
                     @foreach(($categories ?? collect()) as $categoryOption)
                         <option value="{{ $categoryOption->slug }}" @selected(($category ?? '') === $categoryOption->slug)>
                             {{ $categoryOption->name }}
@@ -26,14 +26,14 @@
                 </select>
 
                 <select name="status">
-                    <option value="">Status</option>
-                    <option value="pending" @selected(($status ?? '') === 'pending')>Pending</option>
-                    <option value="under_review" @selected(($status ?? '') === 'under_review')>Under Review</option>
-                    <option value="verified" @selected(($status ?? '') === 'verified')>Verified</option>
-                    <option value="rejected" @selected(($status ?? '') === 'rejected')>Rejected</option>
+                    <option value="">{{ __('Status') }}</option>
+                    <option value="pending" @selected(($status ?? '') === 'pending')>{{ __('Pending') }}</option>
+                    <option value="under_review" @selected(($status ?? '') === 'under_review')>{{ __('Under Review') }}</option>
+                    <option value="verified" @selected(($status ?? '') === 'verified')>{{ __('Verified') }}</option>
+                    <option value="rejected" @selected(($status ?? '') === 'rejected')>{{ __('Rejected') }}</option>
                 </select>
 
-                <button type="submit">Apply</button>
+                <button type="submit">{{ __('Apply') }}</button>
             </form>
 
             @if($reports->count())
@@ -41,30 +41,39 @@
                     <table class="submission-table">
                         <thead>
                             <tr>
-                                <th>Title</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Action</th>
+                                <th>{{ __('Title') }}</th>
+                                <th>{{ __('Category') }}</th>
+                                <th>{{ __('Status') }}</th>
+                                <th>{{ __('Date') }}</th>
+                                <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($reports as $report)
                                 <tr>
                                     <td>{{ \Illuminate\Support\Str::limit($report->title, 42) }}</td>
-                                    <td>{{ $report->category?->name ?? 'General' }}</td>
+                                    <td>{{ $report->category?->name ?? __('General') }}</td>
                                     <td>
-                                        <span class="status-pill status-{{ str_replace('_', '-', $report->status) }}">{{ ucfirst(str_replace('_', ' ', $report->status)) }}</span>
+                                        @php
+                                            $statusLabel = match ($report->status) {
+                                                'pending' => __('Pending'),
+                                                'under_review' => __('Under Review'),
+                                                'verified' => __('Verified'),
+                                                'rejected' => __('Rejected'),
+                                                default => ucfirst(str_replace('_', ' ', (string) $report->status)),
+                                            };
+                                        @endphp
+                                        <span class="status-pill status-{{ str_replace('_', '-', $report->status) }}">{{ $statusLabel }}</span>
                                     </td>
                                     <td>{{ $report->created_at?->format('M j, Y') }}</td>
                                     <td>
                                         @php
                                             $reportPayload = [
                                                 'title' => $report->title,
-                                                'category' => $report->category?->name ?? 'General',
-                                                'statusLabel' => ucfirst(str_replace('_', ' ', $report->status)),
+                                                'category' => $report->category?->name ?? __('General'),
+                                                'statusLabel' => $statusLabel,
                                                 'statusClass' => 'status-' . str_replace('_', '-', $report->status),
-                                                'submittedAt' => $report->created_at?->format('M j, Y h:i A') ?? 'N/A',
+                                                'submittedAt' => $report->created_at?->format('M j, Y h:i A') ?? __('N/A'),
                                                 'summary' => $report->excerpt ?? '',
                                                 'content' => $report->content ?? '',
                                                 'publishedUrl' => $report->status === 'verified' ? route('news.show', $report->slug) : null,
@@ -75,7 +84,7 @@
                                             class="submission-view-btn js-submission-view-btn"
                                             data-report='@json($reportPayload)'
                                         >
-                                            View
+                                            {{ __('View') }}
                                         </button>
                                     </td>
                                 </tr>
@@ -85,11 +94,11 @@
                 </div>
 
                 <div class="dashboard-pagination">
-                    <a href="{{ route('reports.my') }}">View all</a>
+                    <a href="{{ route('reports.my') }}">{{ __('View all') }}</a>
                     <div>{{ $reports->links() }}</div>
                 </div>
             @else
-                <p>No submissions found.</p>
+                <p>{{ __('No submissions found.') }}</p>
             @endif
         </article>
     </section>
@@ -99,40 +108,40 @@
             <header class="submission-modal-head">
                 <div>
                     <h3 id="submission-modal-title"></h3>
-                    <p>Submission details</p>
+                    <p>{{ __('Submission details') }}</p>
                 </div>
-                <button type="button" class="submission-modal-close" id="submission-modal-close">Close</button>
+                <button type="button" class="submission-modal-close" id="submission-modal-close">{{ __('Close') }}</button>
             </header>
 
             <div class="submission-modal-grid">
                 <div class="submission-modal-item">
-                    <span>Category</span>
+                    <span>{{ __('Category') }}</span>
                     <strong id="submission-modal-category"></strong>
                 </div>
                 <div class="submission-modal-item">
-                    <span>Status</span>
+                    <span>{{ __('Status') }}</span>
                     <strong>
                         <span class="status-pill" id="submission-modal-status"></span>
                     </strong>
                 </div>
                 <div class="submission-modal-item">
-                    <span>Submitted</span>
+                    <span>{{ __('Submitted') }}</span>
                     <strong id="submission-modal-submitted"></strong>
                 </div>
             </div>
 
             <div class="submission-modal-section">
-                <h4>Summary</h4>
+                <h4>{{ __('Summary') }}</h4>
                 <p id="submission-modal-summary"></p>
             </div>
 
             <div class="submission-modal-section">
-                <h4>Full Content</h4>
+                <h4>{{ __('Full Content') }}</h4>
                 <p class="submission-modal-content" id="submission-modal-content"></p>
             </div>
 
             <div class="submission-modal-actions">
-                <a href="#" class="submission-modal-link is-hidden" id="submission-modal-published-link">Open Published News</a>
+                <a href="#" class="submission-modal-link is-hidden" id="submission-modal-published-link">{{ __('Open Published News') }}</a>
             </div>
         </section>
     </div>
@@ -163,17 +172,17 @@
         };
 
         const openModal = function (report) {
-            titleField.textContent = report.title || 'Submission details';
-            categoryField.textContent = report.category || 'General';
-            submittedField.textContent = report.submittedAt || 'N/A';
-            summaryField.textContent = report.summary || 'No summary available.';
-            contentField.textContent = report.content || 'No content available.';
+            titleField.textContent = report.title || @js(__('Submission details'));
+            categoryField.textContent = report.category || @js(__('General'));
+            submittedField.textContent = report.submittedAt || @js(__('N/A'));
+            summaryField.textContent = report.summary || @js(__('No summary available.'));
+            contentField.textContent = report.content || @js(__('No content available.'));
 
             statusField.className = 'status-pill';
             if (report.statusClass) {
                 statusField.classList.add(report.statusClass);
             }
-            statusField.textContent = report.statusLabel || 'Unknown';
+            statusField.textContent = report.statusLabel || @js(__('Unknown'));
 
             if (report.publishedUrl) {
                 publishedLink.classList.remove('is-hidden');
