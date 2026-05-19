@@ -64,11 +64,24 @@ class AdminAuditLogController extends Controller
             ->orderBy('username')
             ->get(['id', 'username']);
 
-        $actions = AuditLog::query()
-            ->select('action_type')
-            ->distinct()
-            ->orderBy('action_type')
-            ->pluck('action_type');
+        $defaultActions = collect([
+            'approved',
+            'rejected',
+            'revision_requested',
+        ]);
+
+        $actions = $defaultActions
+            ->merge(
+                AuditLog::query()
+                    ->select('action_type')
+                    ->distinct()
+                    ->orderBy('action_type')
+                    ->pluck('action_type')
+            )
+            ->map(fn ($value) => trim((string) $value))
+            ->filter(fn ($value) => $value !== '')
+            ->unique()
+            ->values();
 
         return view('admin.audit-logs.index', compact(
             'auditLogs',

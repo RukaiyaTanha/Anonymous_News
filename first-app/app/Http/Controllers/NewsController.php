@@ -124,10 +124,11 @@ class NewsController extends Controller
             ->take(4)
             ->get();
 
-        if ($relatedReports->count() < 4) {
+        if ($relatedReports->count() < 4 && $report->category_id) {
             $relatedReports = $relatedReports
                 ->concat(
                     (clone $baseSidebarQuery)
+                        ->where('category_id', $report->category_id)
                         ->whereNotIn('id', $relatedReports->pluck('id'))
                         ->latest()
                         ->take(4 - $relatedReports->count())

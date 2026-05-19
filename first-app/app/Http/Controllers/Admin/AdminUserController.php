@@ -16,6 +16,11 @@ class AdminUserController extends Controller
 
         $users = User::query()
             ->select(['id', 'username', 'email', 'profile_photo_path', 'reputation_score', 'is_banned', 'role', 'created_at'])
+            ->withCount([
+                'reports as recent_reports_count' => fn ($query) => $query->where('created_at', '>=', now()->subDays(30)),
+                'reviewedReports as recent_reviews_count' => fn ($query) => $query->where('reviewed_at', '>=', now()->subDays(30)),
+                'auditLogs as recent_admin_actions_count' => fn ($query) => $query->where('created_at', '>=', now()->subDays(30)),
+            ])
             ->when($search !== '', function ($query) use ($search) {
                 $query->where(function ($nestedQuery) use ($search) {
                     $nestedQuery->where('username', 'like', "%{$search}%")

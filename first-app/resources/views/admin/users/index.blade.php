@@ -56,6 +56,14 @@
 								$reputationPercent = max(0, min(100, (int) $user->reputation_score));
 								$starCount = (int) ceil($reputationPercent / 20);
 								$isBanned = (bool) $user->is_banned;
+								$isAdmin = $user->role === 'admin';
+								$recentAdminActivity = (int) ($user->recent_reviews_count ?? 0) + (int) ($user->recent_admin_actions_count ?? 0);
+								$isInactive = ! $isBanned
+									&& ($isAdmin
+										? $recentAdminActivity === 0
+										: (int) ($user->recent_reports_count ?? 0) === 0);
+								$statusClass = $isBanned ? 'is-banned' : ($isInactive ? 'is-inactive' : 'is-active');
+								$statusLabel = $isBanned ? 'Banned' : ($isInactive ? 'Inactive' : 'Active');
 								$qualityLabel = match (true) {
 									$reputationPercent >= 90 => 'Likely Accurate',
 									$reputationPercent >= 75 => 'Reliable',
@@ -92,8 +100,8 @@
 									</div>
 								</td>
 								<td>
-									<span class="admin-user-status {{ $isBanned ? 'is-banned' : 'is-active' }}">
-										{{ $isBanned ? 'Banned' : 'Active' }}
+									<span class="admin-user-status {{ $statusClass }}">
+										{{ $statusLabel }}
 									</span>
 								</td>
 								<td>
