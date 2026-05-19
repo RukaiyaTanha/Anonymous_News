@@ -9,7 +9,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: run PHP app
-FROM php:8.2-fpm-alpine
+FROM php:8.4-fpm-alpine
 WORKDIR /app
 
 # Install system dependencies
@@ -25,7 +25,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY --from=node_builder /app /app
 
 # Install PHP dependencies
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader || true
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
 # Ensure sqlite file exists and storage link
 RUN php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');"
