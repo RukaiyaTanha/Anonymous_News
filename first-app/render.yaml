@@ -7,9 +7,10 @@ services:
       composer install --no-dev --optimize-autoloader
       npm ci
       npm run build
-      php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');"
       php artisan storage:link || true
-    preDeployCommand: php artisan migrate --force
+    preDeployCommand: |
+      php artisan migrate --force
+      php artisan db:seed --force
     startCommand: php artisan serve --host 0.0.0.0 --port $PORT
     autoDeploy: true
     envVars:
@@ -30,9 +31,17 @@ services:
       - key: FILESYSTEM_DISK
         value: public
       - key: DB_CONNECTION
-        value: sqlite
-      - key: DB_DATABASE
-        value: database/database.sqlite
+        value: pgsql
+      - key: DB_SSLMODE
+        value: require
+      - key: DATABASE_URL
+        fromDatabase:
+          name: first-app-db
+          property: connectionString
       - key: APP_KEY
         value: "base64:pk2Bj4PGw4dG4Lhv0HyyuyWbnGoMstiZmgsIzZIxvBo="
         sync: false
+
+databases:
+  - name: first-app-db
+    plan: starter

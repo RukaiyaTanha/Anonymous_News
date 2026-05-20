@@ -81,7 +81,6 @@
             <p>&copy; 2026 {{ config('app.name', 'Anonymous News Portal') }}. {{ __('All rights reserved.') }}</p>
             <div>
                 <span>{{ __('v1.0.0') }}</span>
-                <p>{{ __('Powered by') }} <strong>AI + Human Moderation</strong></p>
             </div>
         </div>
     </div>
