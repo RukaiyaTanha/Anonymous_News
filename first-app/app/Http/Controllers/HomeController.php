@@ -8,13 +8,17 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $verifiedReports = Report::with(['media' => fn ($query) => $query->where('media_type', 'image')->orderBy('id')])
-            ->where('status', 'verified')
-            ->whereNotNull('reviewed_by')
-            ->orderByDesc('is_featured')
-            ->latest()
-            ->take(8)
-            ->get();
+        try {
+            $verifiedReports = Report::with(['media' => fn ($query) => $query->where('media_type', 'image')->orderBy('id')])
+                ->where('status', 'verified')
+                ->whereNotNull('reviewed_by')
+                ->orderByDesc('is_featured')
+                ->latest()
+                ->take(8)
+                ->get();
+        } catch (\Throwable $exception) {
+            $verifiedReports = collect();
+        }
 
         $featuredReport = $verifiedReports->firstWhere('is_featured', true) ?? $verifiedReports->first();
 
